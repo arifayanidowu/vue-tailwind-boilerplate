@@ -11,7 +11,7 @@
       >
         Sign In to your account
       </p>
-      <form @submit.prevent="handleSubmit" ref="formRef">
+      <form @submit.prevent="onSubmit" ref="formRef">
         <div class="my-2">
           <label
             for="email"
@@ -23,10 +23,11 @@
               id="email"
               name="email"
               type="email"
-              v-model:model-value="emailField"
+              v-model:model-value="email"
               autocomplete="email"
               required
               placeholder="youremail@example.com"
+              :error="errors.email"
             />
           </div>
         </div>
@@ -40,10 +41,11 @@
             <app-input
               id="password"
               name="password"
-              v-model:model-value="passwordField"
+              v-model:model-value="password"
               :type="passwordVisible ? 'text' : 'password'"
               required
               placeholder="••••••••••"
+              :error="errors.password"
             />
             <div
               class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
@@ -64,7 +66,7 @@
           </div>
         </div>
         <app-btn
-          :disabled="!emailField || !passwordField || loading"
+          :disabled="!email || !password || loading"
           type="submit"
           :loading="loading"
         >
@@ -116,6 +118,8 @@ import {
 import { collection, getDocs, setDoc, doc } from "firebase/firestore";
 import { useRouter } from "vue-router";
 import * as zod from "zod";
+import { useField, useForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
 import { useFirestore, useCurrentUser } from "vuefire";
 import GoogleIcon from "@/components/icons/GoogleIcon.vue";
 import { auth } from "@/database";
@@ -123,8 +127,6 @@ import { auth } from "@/database";
 useDark();
 
 const passwordVisible = ref(false);
-const emailField = ref("");
-const passwordField = ref("");
 const loading = ref(false);
 const formRef = ref<HTMLFormElement | null>(null);
 const router = useRouter();
@@ -145,43 +147,51 @@ const togglePasswordVisibility = () => {
   passwordVisible.value = !passwordVisible.value;
 };
 
-const resetForm = () => {
-  formRef.value?.reset();
-  emailField.value = "";
-  passwordField.value = "";
-};
-
 const unwatch = watch(user, (isAuth) => {
   if (isAuth) {
     router.push("/dashboard");
   }
 });
 
-const schema = zod.object({
-  email: zod
-    .string()
-    .nonempty({ message: "Email cannot be empty" })
-    .email({ message: "Email must be valid" }),
-  password: zod
-    .string()
-    .nonempty({ message: "Password is required" })
-    .min(6, { message: "Password must be at least 6 characters" })
-    .max(20),
+const schema = toTypedSchema(
+  zod.object({
+    email: zod
+      .string()
+      .nonempty({ message: "Email cannot be empty" })
+      .email({ message: "Email must be valid" }),
+    password: zod
+      .string()
+      .nonempty({ message: "Password is required" })
+      .min(6, { message: "Password must be at least 6 characters long" })
+      .max(20),
+  })
+);
+
+const { handleSubmit, errors } = useForm({
+  validationSchema: schema,
 });
+
+const { value: email } = useField("email");
+const { value: password } = useField("password");
+
+const resetForm = () => {
+  formRef.value?.reset();
+  email.value = "";
+  password.value = "";
+};
 
 const signInWithGoogle = async () => {
   try {
     loading.value = true;
     const document = await signInWithPopup(auth, new GoogleAuthProvider());
-    const user = document.user;
-    // check if user's email exists
-    const querySnapshot = await getDocs(collection(db, "users"));
-    const users = querySnapshot.docs.map((doc) => doc.data());
-
     snackbar.open = true;
     snackbar.message = "Login successful";
     snackbar.color = "success";
 
+    const user = document.user;
+    // check if user's email exists
+    const querySnapshot = await getDocs(collection(db, "users"));
+    const users = querySnapshot.docs.map((doc) => doc.data());
     // check if user exists
     const userExists = users.find((doc) => doc.email === user.email);
     if (userExists) {
@@ -190,7 +200,6 @@ const signInWithGoogle = async () => {
       }, 3000);
       return;
     }
-
     // add user to database
     const userRef = doc(db, "users", user.uid);
     await setDoc(userRef, {
@@ -214,23 +223,17 @@ const signInWithGoogle = async () => {
   }
 };
 
-const handleSubmit = async () => {
+const onSubmit = handleSubmit(async (values) => {
   loading.value = true;
-  const data = {
-    email: emailField.value,
-    password: passwordField.value,
-  };
   try {
-    const result = await schema.parseAsync(data);
     const userCredential = await signInWithEmailAndPassword(
       auth,
-      result.email,
-      result.password
+      values.email,
+      values.password
     );
     snackbar.open = true;
     snackbar.message = "Login successful";
     snackbar.color = "success";
-
     // Signed in
     const user = userCredential.user;
     // ...
@@ -267,7 +270,7 @@ const handleSubmit = async () => {
     loading.value = false;
     resetForm();
   }
-};
+});
 
 onMounted(() => {
   if (user.value) {

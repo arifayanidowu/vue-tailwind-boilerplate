@@ -246,7 +246,9 @@ const menuItems = ref([
     IconComponent: ArrowLeftOnRectangleIcon,
     onClick: async () => {
       await signOut(auth).then(() => {
-        router.push('/')
+        setTimeout(() => {
+          router.push('/')
+        }, 3000)
       })
     },
   },
