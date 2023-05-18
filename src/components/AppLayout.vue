@@ -201,7 +201,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, onUnmounted } from "vue";
 import { MenuItems, MenuItem, Menu, MenuButton} from "@headlessui/vue";
 import { breakpointsTailwind, useBreakpoints, useDark, useToggle } from "@vueuse/core";
 import {
@@ -256,14 +256,15 @@ const menuItems = ref([
   },
 ]);
 
-
-
-watch(route, (to) => {
+const unwatch = watch(route, (to) => {
   if(to)
    navigation.value.forEach((item) => {
       item.current = item.href === to?.path;
     });
 });
+
+// Toggle dark mode
+const toggleDark = useToggle(isDark);
 
 onMounted(() => {
   navigation.value.forEach((item) => {
@@ -271,6 +272,8 @@ onMounted(() => {
   });
 });
 
-// Toggle dark mode
-const toggleDark = useToggle(isDark);
+onUnmounted(() => {
+  // cleanup
+  unwatch();
+});
 </script>
