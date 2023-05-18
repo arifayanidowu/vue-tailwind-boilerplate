@@ -12,12 +12,14 @@
       v-if="!mobile"
     >
       <div
-        class="h-16 border-b-[0.1px] border-b-slate-300 dark:border-b-slate-800 px-4 sm:px-6 py-6 flex gap-1 w-max"
+        class="h-16 border-b-[0.1px] border-b-slate-300 dark:border-b-slate-800 px-4 sm:px-6 py-6"
       >
-        <app-logo class="w-6 h-6 rounded-full" />
-        <p class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-          CoffeeHut
-        </p>
+        <div class="w-max flex gap-1">
+          <app-logo class="w-6 h-6 rounded-full" />
+          <p class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+            CoffeeHut
+          </p>
+        </div>
       </div>
       <!-- Sidebar navigation list -->
       <div class="flex-1 min-h-0 overflow-y-auto" aria-label="Sidebar">
