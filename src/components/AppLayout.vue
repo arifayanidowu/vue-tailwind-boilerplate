@@ -183,7 +183,7 @@
       <!-- Top navigation ends here -->
       <!-- Main content -->
       <div
-        class="h-screen overflow-y-auto px-8 py-24 dark:bg-slate-900 dark:text-white transition-colors"
+        class="h-screen overflow-y-auto px-8 py-24 bg-slate-50 dark:bg-slate-900 dark:text-white transition-colors"
       >
         <router-view v-slot="{ Component, route }">
           <transition
@@ -197,11 +197,17 @@
         </router-view>
       </div>
     </main>
+    <app-snackbar
+      :open="snackbar.open"
+      :message="snackbar.message"
+      :variant="snackbar.color"
+      @close="snackbar.open = false"
+    ></app-snackbar>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, onUnmounted } from "vue";
+import { ref, onMounted, watch, onUnmounted, reactive } from "vue";
 import { MenuItems, MenuItem, Menu, MenuButton} from "@headlessui/vue";
 import { breakpointsTailwind, useBreakpoints, useDark, useToggle } from "@vueuse/core";
 import {
@@ -231,6 +237,16 @@ const isDark = useDark();
 const user = useCurrentUser();
 const router = useRouter();
 
+const snackbar = reactive<{
+  open: boolean;
+  message: string;
+  color: "success" | "danger";
+}>({
+  open: false,
+  message: "",
+  color: "success",
+});
+
 // Navigation
 const navigation = ref([
   { name: "Dashboard", href: "/dashboard", current: false, icon: HomeModernIcon },
@@ -248,6 +264,9 @@ const menuItems = ref([
     IconComponent: ArrowLeftOnRectangleIcon,
     onClick: async () => {
       await signOut(auth).then(() => {
+        snackbar.open = true;
+        snackbar.message = "Signed out successfully";
+        snackbar.color = "success";
         setTimeout(() => {
           router.push('/')
         }, 3000)

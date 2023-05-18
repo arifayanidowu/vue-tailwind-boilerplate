@@ -1,94 +1,90 @@
 <template>
-  <div
-    class="h-screen w-screen flex justify-center items-center md:p-24 p-10 bg-slate-50 dark:bg-slate-950/95"
-  >
-    <div class="bg-white dark:bg-slate-600/90 w-full md:w-[600px] rounded-md p-8">
-      <!-- Logo starts here -->
-      <app-logo class="w-24 h-24"></app-logo>
-      <!-- Logo ends here -->
-      <p
-        class="text-center text-2xl tracking-tight leading-9 text-gray-600 dark:text-slate-50"
-      >
-        Sign Up for an account
-      </p>
-      <form @submit.prevent="onSubmit" ref="formRef">
-        <div class="my-2">
-          <label
-            for="email"
-            class="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50"
-            >Email address</label
-          >
-          <div class="mt-2 relative">
-            <app-input
-              id="email"
-              name="email"
-              type="email"
-              v-model:model-value="email"
-              autocomplete="email"
-              required
-              placeholder="youremail@example.com"
-              :error="errors.email"
-            />
-          </div>
-        </div>
-        <div class="my-2">
-          <label
-            for="email"
-            class="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50"
-            >Password</label
-          >
-          <div class="mt-2 relative">
-            <app-input
-              id="password"
-              name="password"
-              v-model:model-value="password"
-              :type="passwordVisible ? 'text' : 'password'"
-              required
-              placeholder="••••••••••"
-              :error="errors.password"
-            />
-            <div
-              class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-            >
-              <button type="button" @click.stop="togglePasswordVisibility">
-                <EyeSlashIcon
-                  class="h-5 w-5 text-gray-400 dark:text-gray-900"
-                  aria-hidden="true"
-                  v-if="!passwordVisible"
-                />
-                <EyeIcon
-                  class="h-5 w-5 text-gray-400 dark:text-gray-900"
-                  aria-hidden="true"
-                  v-else
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-        <app-btn
-          :disabled="!email || !password || loading"
-          :loading="loading"
-          type="submit"
+  <div class="bg-white dark:bg-slate-600/90 w-full md:w-[600px] rounded-md p-8">
+    <!-- Logo starts here -->
+    <app-logo class="w-24 h-24"></app-logo>
+    <!-- Logo ends here -->
+    <p
+      class="text-center text-2xl tracking-tight leading-9 text-gray-600 dark:text-slate-50"
+    >
+      Sign Up for an account
+    </p>
+    <form @submit.prevent="onSubmit" ref="formRef">
+      <div class="my-2">
+        <label
+          for="email"
+          class="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50"
+          >Email address</label
         >
-          Sign Up
-        </app-btn>
-      </form>
-      <div>
-        <p class="text-gray-500 text-base dark:text-gray-100">
-          Already have an account?
-          <router-link to="/" class="text-blue-400 font-bold leading-9 underline"
-            >Sign In</router-link
-          >
-        </p>
+        <div class="mt-2 relative">
+          <app-input
+            id="email"
+            name="email"
+            type="email"
+            v-model:model-value="email"
+            autocomplete="email"
+            required
+            placeholder="youremail@example.com"
+            :error="errors.email"
+          />
+        </div>
       </div>
+      <div class="my-2">
+        <label
+          for="email"
+          class="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50"
+          >Password</label
+        >
+        <div class="mt-2 relative">
+          <app-input
+            id="password"
+            name="password"
+            v-model:model-value="password"
+            :type="passwordVisible ? 'text' : 'password'"
+            required
+            placeholder="••••••••••"
+            :error="errors.password"
+          />
+          <div
+            class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+          >
+            <button type="button" @click.stop="togglePasswordVisibility">
+              <EyeSlashIcon
+                class="h-5 w-5 text-gray-400 dark:text-gray-900"
+                aria-hidden="true"
+                v-if="!passwordVisible"
+              />
+              <EyeIcon
+                class="h-5 w-5 text-gray-400 dark:text-gray-900"
+                aria-hidden="true"
+                v-else
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <app-btn
+        :disabled="!email || !password || loading"
+        :loading="loading"
+        type="submit"
+      >
+        Sign Up
+      </app-btn>
+    </form>
+    <div>
+      <p class="text-gray-500 text-base dark:text-gray-100">
+        Already have an account?
+        <router-link to="/" class="text-blue-400 font-bold leading-9 underline"
+          >Sign In</router-link
+        >
+      </p>
     </div>
-    <app-snackbar
-      :open="snackbar.open"
-      :message="snackbar.message"
-      :variant="snackbar.color"
-      @close="snackbar.open = false"
-    ></app-snackbar>
   </div>
+  <app-snackbar
+    :open="snackbar.open"
+    :message="snackbar.message"
+    :variant="snackbar.color"
+    @close="snackbar.open = false"
+  ></app-snackbar>
 </template>
 
 <script setup lang="ts">

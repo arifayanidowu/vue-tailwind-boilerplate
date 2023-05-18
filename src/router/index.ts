@@ -6,13 +6,20 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'root',
-      component: () => import('@/views/auth/LoginView.vue')
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: () => import(/* webpackChunkName: "register" */ '@/views/auth/RegisterView.vue')
+      component: () => import('@/components/AuthLayout.vue'),
+      children: [
+        {
+          path: '',
+          name: 'root',
+          component: () => import('@/views/auth/LoginView.vue')
+        },
+        {
+          path: 'register',
+          name: 'register',
+          component: () =>
+            import(/* webpackChunkName: "register" */ '@/views/auth/RegisterView.vue')
+        }
+      ]
     },
     {
       path: '/dashboard',

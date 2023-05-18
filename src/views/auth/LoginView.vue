@@ -1,109 +1,105 @@
 <template>
-  <div
-    class="h-screen w-screen flex justify-center items-center md:p-24 p-10 bg-slate-50 dark:bg-slate-950/95"
-  >
-    <div class="bg-white dark:bg-slate-600/90 w-full md:w-[600px] rounded-md p-8">
-      <!-- Logo starts here -->
-      <app-logo class="w-24 h-24"></app-logo>
-      <!-- Logo ends here -->
-      <p
-        class="text-center text-2xl tracking-tight leading-9 text-gray-600 dark:text-slate-50"
-      >
-        Sign In to your account
-      </p>
-      <form @submit.prevent="onSubmit" ref="formRef">
-        <div class="my-2">
-          <label
-            for="email"
-            class="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50"
-            >Email address</label
-          >
-          <div class="mt-2 relative">
-            <app-input
-              id="email"
-              name="email"
-              type="email"
-              v-model:model-value="email"
-              autocomplete="email"
-              required
-              placeholder="youremail@example.com"
-              :error="errors.email"
-            />
-          </div>
-        </div>
-        <div class="my-2">
-          <label
-            for="email"
-            class="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50"
-            >Password</label
-          >
-          <div class="mt-2 relative">
-            <app-input
-              id="password"
-              name="password"
-              v-model:model-value="password"
-              :type="passwordVisible ? 'text' : 'password'"
-              required
-              placeholder="••••••••••"
-              :error="errors.password"
-            />
-            <div
-              class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-            >
-              <button type="button" @click.stop="togglePasswordVisibility">
-                <EyeSlashIcon
-                  class="h-5 w-5 text-gray-400 dark:text-gray-900"
-                  aria-hidden="true"
-                  v-if="!passwordVisible"
-                />
-                <EyeIcon
-                  class="h-5 w-5 text-gray-400 dark:text-gray-900"
-                  aria-hidden="true"
-                  v-else
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-        <app-btn
-          :disabled="!email || !password || loading"
-          type="submit"
-          :loading="loading"
+  <div class="bg-white dark:bg-slate-600/90 w-full md:w-[600px] rounded-md p-8">
+    <!-- Logo starts here -->
+    <app-logo class="w-24 h-24"></app-logo>
+    <!-- Logo ends here -->
+    <p
+      class="text-center text-2xl tracking-tight leading-9 text-gray-600 dark:text-slate-50"
+    >
+      Sign In to your account
+    </p>
+    <form @submit.prevent="onSubmit" ref="formRef">
+      <div class="my-2">
+        <label
+          for="email"
+          class="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50"
+          >Email address</label
         >
-          Sign in
-        </app-btn>
-      </form>
-      <div>
-        <p class="text-gray-500 dark:text-gray-100">
-          Don't have an account,
-          <router-link to="/register" class="text-blue-400 font-bold leading-9 underline"
-            >Sign up</router-link
+        <div class="mt-2 relative">
+          <app-input
+            id="email"
+            name="email"
+            type="email"
+            v-model:model-value="email"
+            autocomplete="email"
+            required
+            placeholder="youremail@example.com"
+            :error="errors.email"
+          />
+        </div>
+      </div>
+      <div class="my-2">
+        <label
+          for="email"
+          class="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50"
+          >Password</label
+        >
+        <div class="mt-2 relative">
+          <app-input
+            id="password"
+            name="password"
+            v-model:model-value="password"
+            :type="passwordVisible ? 'text' : 'password'"
+            required
+            placeholder="••••••••••"
+            :error="errors.password"
+          />
+          <div
+            class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
           >
-        </p>
+            <button type="button" @click.stop="togglePasswordVisibility">
+              <EyeSlashIcon
+                class="h-5 w-5 text-gray-400 dark:text-gray-900"
+                aria-hidden="true"
+                v-if="!passwordVisible"
+              />
+              <EyeIcon
+                class="h-5 w-5 text-gray-400 dark:text-gray-900"
+                aria-hidden="true"
+                v-else
+              />
+            </button>
+          </div>
+        </div>
       </div>
-      <div
-        class="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-[1_1_0%] before:border-t before:border-gray-200 before:mr-6 after:flex-[1_1_0%] after:border-t after:border-gray-200 after:ml-6 dark:text-slate-400 dark:before:border-slate-500 dark:after:border-slate-500"
-      >
-        Or
-      </div>
-      <!-- Sign in with google -->
       <app-btn
-        type="button"
-        color="plain"
-        @click.stop="signInWithGoogle"
-        :disabled="loading"
+        :disabled="!email || !password || loading"
+        type="submit"
+        :loading="loading"
       >
-        <GoogleIcon class="h-5 w-5" />
-        Sign In with Google
+        Sign in
       </app-btn>
+    </form>
+    <div>
+      <p class="text-gray-500 dark:text-gray-100">
+        Don't have an account,
+        <router-link to="/register" class="text-blue-400 font-bold leading-9 underline"
+          >Sign up</router-link
+        >
+      </p>
     </div>
-    <app-snackbar
-      :open="snackbar.open"
-      :message="snackbar.message"
-      :variant="snackbar.color"
-      @close="snackbar.open = false"
-    ></app-snackbar>
+    <div
+      class="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-[1_1_0%] before:border-t before:border-gray-200 before:mr-6 after:flex-[1_1_0%] after:border-t after:border-gray-200 after:ml-6 dark:text-slate-400 dark:before:border-slate-500 dark:after:border-slate-500"
+    >
+      Or
+    </div>
+    <!-- Sign in with google -->
+    <app-btn
+      type="button"
+      color="plain"
+      @click.stop="signInWithGoogle"
+      :disabled="loading"
+    >
+      <GoogleIcon class="h-5 w-5" />
+      Sign In with Google
+    </app-btn>
   </div>
+  <app-snackbar
+    :open="snackbar.open"
+    :message="snackbar.message"
+    :variant="snackbar.color"
+    @close="snackbar.open = false"
+  ></app-snackbar>
 </template>
 
 <script setup lang="ts">
@@ -182,7 +178,6 @@ const resetForm = () => {
 
 const signInWithGoogle = async () => {
   try {
-    loading.value = true;
     const document = await signInWithPopup(auth, new GoogleAuthProvider());
     snackbar.open = true;
     snackbar.message = "Login successful";
@@ -218,8 +213,6 @@ const signInWithGoogle = async () => {
     snackbar.open = true;
     snackbar.message = err.message;
     snackbar.color = "danger";
-  } finally {
-    loading.value = false;
   }
 };
 
