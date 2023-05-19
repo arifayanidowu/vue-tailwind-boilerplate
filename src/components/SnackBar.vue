@@ -41,7 +41,7 @@
               v-else-if="variant === 'warning'"
             />
           </div>
-          <p class="text-sm">
+          <p class="text-sm line-clamp-3">
             {{ message }}
           </p>
         </div>

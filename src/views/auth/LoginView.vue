@@ -89,8 +89,9 @@
       color="plain"
       @click.stop="signInWithGoogle"
       :disabled="loading"
+      :Icon="GoogleIcon"
     >
-      <GoogleIcon class="h-5 w-5" />
+      <!-- <GoogleIcon class="h-5 w-5" /> -->
       Sign In with Google
     </app-btn>
   </div>
@@ -104,7 +105,6 @@
 
 <script setup lang="ts">
 import { EyeSlashIcon, EyeIcon } from "@heroicons/vue/24/solid";
-import { useDark } from "@vueuse/core";
 import { ref, reactive, watch, onMounted, onUnmounted } from "vue";
 import {
   GoogleAuthProvider,
@@ -119,8 +119,6 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { useFirestore, useCurrentUser } from "vuefire";
 import GoogleIcon from "@/components/icons/GoogleIcon.vue";
 import { auth } from "@/database";
-
-useDark();
 
 const passwordVisible = ref(false);
 const loading = ref(false);

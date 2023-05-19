@@ -156,18 +156,24 @@
                       v-slot="{ active }"
                       v-for="({ name, IconComponent, onClick }, idx) in menuItems"
                       :key="idx"
+                      class="dark:hover:bg-slate-700 hover:bg-slate-50 hover:text-gray-600"
                     >
                       <button
                         :class="[
-                          active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                          'group flex w-full items-center rounded-md px-2 py-2 text-sm dark:text-white',
+                          {
+                            'bg-violet-500 text-white': active,
+                          },
+                          'group flex w-full items-center rounded-md px-2 py-2 text-gray-900 text-sm dark:text-white',
                         ]"
                         @click="onClick"
                       >
+                        <span class="sr-only">
+                          {{ name }} {{ active ? "active" : "" }}
+                        </span>
                         <template v-if="IconComponent">
                           <component
                             :is="IconComponent"
-                            class="mr-3 h-6 w-6 text-violet-400"
+                            class="mr-3 h-6 w-6 text-slate-400"
                           />
                         </template>
                         {{ name }}
@@ -188,7 +194,7 @@
         <router-view v-slot="{ Component, route }">
           <transition
             mode="out-in"
-            leave-active-class="transition duration-100 ease-in"
+            leave-active-class="transition duration-200 delay-200 ease-in"
             leave-from-class="opacity-100"
             leave-to-class="opacity-0"
           >
@@ -250,8 +256,8 @@ const snackbar = reactive<{
 // Navigation
 const navigation = ref([
   { name: "Dashboard", href: "/dashboard", current: false, icon: HomeModernIcon },
-  { name: "Team", href: "/dashboard/team", current: false, icon: UserGroupIcon },
-  { name: "Projects", href: "/dashboard/projects", current: false, icon: ArchiveBoxIcon },
+  { name: "Users", href: "/dashboard/users", current: false, icon: UserGroupIcon },
+  { name: "Orders", href: "/dashboard/orders", current: false, icon: ArchiveBoxIcon },
   { name: "Calendar", href: "/dashboard/calendar", current: false, icon: CalendarDaysIcon },
 ]);
 

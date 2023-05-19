@@ -89,7 +89,6 @@
 
 <script setup lang="ts">
 import { EyeSlashIcon, EyeIcon } from "@heroicons/vue/24/solid";
-import { useDark } from "@vueuse/core";
 import { ref, reactive } from "vue";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, getDocs, setDoc, doc } from "firebase/firestore";
@@ -98,8 +97,6 @@ import { useField, useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useRouter } from "vue-router";
 import { auth, db } from "@/database";
-
-useDark();
 
 const passwordVisible = ref(false);
 const loading = ref(false);
@@ -128,7 +125,7 @@ const schema = toTypedSchema(
       .email({ message: "Email must be valid" }),
     password: zod
       .string()
-      .nonempty({ message: "Password is required" })
+      .nonempty({ message: "Password cannot be empty" })
       .min(6, { message: "Password must be at least 6 characters long" })
       .max(20),
   })

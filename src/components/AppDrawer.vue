@@ -51,15 +51,21 @@
                   </div>
                 </TransitionChild>
                 <div
-                  class="flex h-full flex-col overflow-y-scroll bg-white dark:bg-slate-950/95 shadow-xl"
+                  class="flex h-full flex-col overflow-y-auto bg-white dark:bg-slate-950/95 shadow-xl"
                 >
                   <div
                     class="h-16 border-b-[0.5px] border-b-slate-300 dark:border-b-slate-800 px-4 sm:px-6 py-6 flex gap-2"
                   >
                     <DialogTitle
-                      class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-                      >Panel title</DialogTitle
+                      class="text-base font-semibold leading-6 text-gray-900 dark:text-white flex gap-2"
                     >
+                      <app-logo class="w-6 h-6 rounded-full" />
+                      <p
+                        class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
+                      >
+                        CoffeeHut
+                      </p>
+                    </DialogTitle>
                   </div>
                   <div class="relative flex-1">
                     <!-- Your content -->
@@ -73,14 +79,22 @@
                           <router-link
                             v-slot="{ isExactActive }"
                             :to="nav.href"
-                            class="inline-flex items-center w-full text-sm font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 h-6 py-6 px-1"
+                            :class="[
+                              {
+                                'bg-gray-50 dark:bg-slate-700': nav.current,
+                                'bg-transparent': !nav.current,
+                              },
+                              'inline-flex items-center w-full text-sm font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 h-6 py-6 px-1',
+                            ]"
                           >
                             <span
-                              class="absolute inset-y-0 left-0 w-1 bg-slate-500 rounded-tr-lg rounded-br-lg"
-                              :class="{
-                                'bg-slate-500': nav.current || isExactActive,
-                                'bg-transparent': !nav.current && !isExactActive,
-                              }"
+                              :class="[
+                                {
+                                  'bg-slate-500': nav.current || isExactActive,
+                                  'bg-transparent': !nav.current && !isExactActive,
+                                },
+                                'absolute inset-y-0 left-0 w-1 bg-slate-500 rounded-tr-lg rounded-br-lg',
+                              ]"
                               aria-hidden="true"
                             ></span>
                             <template v-if="nav.icon">

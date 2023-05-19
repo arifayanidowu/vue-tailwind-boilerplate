@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Projects</p>
+    <p>Orders</p>
   </div>
 </template>
 

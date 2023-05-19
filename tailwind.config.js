@@ -8,5 +8,8 @@ export default {
       sans: ["'Barlow Condensed'", 'sans-serif']
     }
   },
-  plugins: []
+  corePlugins: {
+    aspectRatio: false
+  },
+  plugins: [import('@tailwindcss/aspect-ratio')]
 }
