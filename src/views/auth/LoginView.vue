@@ -8,32 +8,20 @@
     >
       Sign In to your account
     </p>
-    <form @submit.prevent="onSubmit" ref="formRef">
+    <form @submit.prevent="onSubmit" ref="formRef" class="mt-5">
+      <app-input
+        id="email"
+        name="email"
+        type="email"
+        v-model:model-value="email"
+        autocomplete="email"
+        required
+        placeholder="youremail@example.com"
+        :error="errors.email"
+        label="Email address"
+      />
+
       <div class="my-2">
-        <label
-          for="email"
-          class="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50"
-          >Email address</label
-        >
-        <div class="mt-2 relative">
-          <app-input
-            id="email"
-            name="email"
-            type="email"
-            v-model:model-value="email"
-            autocomplete="email"
-            required
-            placeholder="youremail@example.com"
-            :error="errors.email"
-          />
-        </div>
-      </div>
-      <div class="my-2">
-        <label
-          for="email"
-          class="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50"
-          >Password</label
-        >
         <div class="mt-2 relative">
           <app-input
             id="password"
@@ -43,6 +31,7 @@
             required
             placeholder="••••••••••"
             :error="errors.password"
+            label="Password"
           />
           <div
             class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"

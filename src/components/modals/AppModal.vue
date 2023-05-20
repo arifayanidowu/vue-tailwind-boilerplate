@@ -43,7 +43,7 @@
                   <XMarkIcon class="w-5 h-5 text-gray-600 dark:text-gray-300" />
                 </app-icon-btn>
               </DialogTitle>
-              <div class="mt-2 p-6">
+              <div class="p-6">
                 <slot />
               </div>
             </DialogPanel>

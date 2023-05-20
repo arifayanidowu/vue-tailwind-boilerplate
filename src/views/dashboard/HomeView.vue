@@ -1,6 +1,8 @@
 <template>
   <main>
-    <h1 class="mb-3">Dashboard</h1>
+    <h1 class="mb-3 inline-flex items-center justify-center gap-1">
+      Dashboard <ChartBarSquareIcon class="w-6 h-6" />
+    </h1>
 
     <div class="flex flex-wrap gap-2 w-full">
       <app-card class="flex-1 p-4" v-for="(data, idx) in collectiveData" :key="idx">
@@ -40,8 +42,10 @@
     <div>
       <div class="flex flex-col mt-10">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-5">
-          <h2 class="text-lg leading-6 font-medium text-gray-900 dark:text-white">
-            Bar Chart
+          <h2
+            class="text-lg leading-6 font-medium text-gray-900 dark:text-white inline-flex gap-1"
+          >
+            Bar Chart <ChartBarIcon class="w-5 h-5" />
           </h2>
           <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-1 gap-1">
             <div class="relative">
@@ -67,7 +71,12 @@
 
 <script setup lang="ts">
 import { dataFormatter } from "@/utils";
-import { ArrowDownRightIcon, ArrowUpRightIcon } from "@heroicons/vue/24/solid";
+import {
+  ArrowDownRightIcon,
+  ArrowUpRightIcon,
+  ChartBarIcon,
+  ChartBarSquareIcon,
+} from "@heroicons/vue/24/solid";
 import { reactive } from "vue";
 
 const collectiveData = reactive([
