@@ -36,13 +36,19 @@ const router = createRouter({
         {
           path: 'users',
           name: 'Users',
-          component: () => import(/* lazy loading TeamView */ '@/views/dashboard/TeamView.vue')
+          component: () => import(/* lazy loading TeamView */ '@/views/dashboard/UsersView.vue')
         },
         {
           path: 'orders',
           name: 'Orders',
           component: () =>
-            import(/* lazy loading ProjectsView */ '@/views/dashboard/ProjectsView.vue')
+            import(/* lazy loading ProjectsView */ '@/views/dashboard/OrdersView.vue')
+        },
+        {
+          path: 'products',
+          name: 'Products',
+          component: () =>
+            import(/* lazy loading ProjectsView */ '@/views/dashboard/ProductsView.vue')
         },
         {
           path: 'calendar',

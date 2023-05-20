@@ -8,6 +8,12 @@ import SnackBar from './SnackBar.vue'
 import BarChart from './charts/BarChart.vue'
 import ProgressBar from './ProgressBar.vue'
 import CardView from './CardView.vue'
+import CapsuleViewVue from './CapsuleView.vue'
+import IconButton from './IconButton.vue'
+import BadgeView from './BadgeView.vue'
+import SearchInput from './SearchInput.vue'
+import DataTable from './DataTable.vue'
+import AppModal from './modals/AppModal.vue'
 
 export default function registerComponent(app: App): void {
   app
@@ -20,4 +26,10 @@ export default function registerComponent(app: App): void {
     .component('app-bar-chart', BarChart)
     .component('app-progress-bar', ProgressBar)
     .component('app-card', CardView)
+    .component('app-capsule', CapsuleViewVue)
+    .component('app-icon-btn', IconButton)
+    .component('app-badge', BadgeView)
+    .component('app-search-input', SearchInput)
+    .component('app-data-table', DataTable)
+    .component('app-modal', AppModal)
 }

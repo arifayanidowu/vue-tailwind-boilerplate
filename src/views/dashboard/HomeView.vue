@@ -6,15 +6,14 @@
       <app-card class="flex-1 p-4" v-for="(data, idx) in collectiveData" :key="idx">
         <div class="flex justify-between items-center">
           <p class="text-slate-400">{{ data.name }}</p>
-          <div
+          <app-capsule
             :class="[
               {
-                'bg-green-100 text-green-600 dark:bg-green-400 dark:text-green-100':
+                'bg-green-100 text-green-600 dark:bg-green-600 dark:text-green-100':
                   data.total > data.oldTotal,
-                'bg-red-100 text-red-600 dark:bg-red-400 dark:text-red-100':
+                'bg-red-100 text-red-600 dark:bg-red-500 dark:text-red-100':
                   data.total < data.oldTotal,
               },
-              'rounded-full w-16 flex justify-between gap-1 items-center px-1',
             ]"
           >
             <ArrowUpRightIcon
@@ -25,13 +24,13 @@
             <span class="font-bold">
               {{ percentageIncrease(data.oldTotal, data.total).toFixed(2) + "%" }}
             </span>
-          </div>
+          </app-capsule>
         </div>
         <div class="mt-4">
           <p class="text-4xl font-bold leading-4 tracking-wide">
-            {{ "$" + dataFormatter(data.total) }}
+            {{ currencyToNumber(data.name, dataFormatter(data.total)) }}
             <span class="text-sm space-x-3 text-gray-400"
-              >from {{ "$" + dataFormatter(data.oldTotal) }}</span
+              >from {{ currencyToNumber(data.name, dataFormatter(data.oldTotal)) }}</span
             >
           </p>
         </div>
@@ -102,5 +101,13 @@ const data = reactive([
 
 const percentageIncrease = (oldValue: number, newValue: number) => {
   return ((newValue - oldValue) / oldValue) * 100;
+};
+
+const currencyToNumber = (name: string, number: string) => {
+  if (name?.toLowerCase() === "customers") {
+    return number;
+  } else {
+    return "$" + number;
+  }
 };
 </script>

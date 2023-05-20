@@ -69,7 +69,7 @@
     >
       <!-- Top navigation -->
       <div
-        class="fixed top-0 z-30 h-16 backdrop-blur flex-none transition-colors duration-500 lg:z-50 lg:border-b lg:border-slate-900/10 dark:border-slate-50/[0.06] bg-white supports-backdrop-blur:bg-white/95 dark:bg-slate-900/75"
+        class="fixed top-0 z-30 h-16 backdrop-blur flex-none transition-colors duration-500 lg:z-50 lg:border-b lg:border-slate-900/10 dark:border-slate-50/[0.06] bg-white/75 supports-backdrop-blur:bg-white/95 dark:bg-slate-900/75"
         :class="{
           'w-[calc(100%-276px)]': !mobile,
           'w-full': mobile,
@@ -91,11 +91,7 @@
           <div class="flex items-center gap-3">
             <!-- Toggle theme -->
             <div>
-              <button
-                @click.stop="toggleDark()"
-                type="button"
-                class="rounded-full bg-transparent p-1 border border-spacing-2 border-slate-300 dark:border-slate-800 text-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1 focus:ring-offset-gray-400"
-              >
+              <app-icon-btn @click.stop="toggleDark()" type="button">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
@@ -115,14 +111,14 @@
                   />
                 </svg>
                 <SunIcon class="h-6 w-6 text-blue-500" v-else />
-              </button>
+              </app-icon-btn>
             </div>
             <div class="flex items-center">
-              <button
-                class="rounded-full bg-transparent p-1 border border-spacing-2 border-slate-300 dark:border-slate-800 text-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1 focus:ring-offset-gray-400"
-              >
-                <BellIcon class="h-6 w-6 text-slate-500" />
-              </button>
+              <app-badge :badgeCount="100" color="primary">
+                <app-icon-btn>
+                  <BellIcon class="h-6 w-6 text-slate-500" />
+                </app-icon-btn>
+              </app-badge>
             </div>
             <Menu as="div">
               <MenuButton
@@ -227,7 +223,8 @@ import {
   UserGroupIcon,
   ArchiveBoxIcon,
   CalendarDaysIcon,
-  UserCircleIcon
+  UserCircleIcon,
+ShoppingBagIcon
 } from "@heroicons/vue/24/outline";
 import { RouterLink, useRoute, type RouterView, useRouter } from "vue-router";
 import { useCurrentUser, } from 'vuefire'
@@ -258,6 +255,7 @@ const navigation = ref([
   { name: "Dashboard", href: "/dashboard", current: false, icon: HomeModernIcon },
   { name: "Users", href: "/dashboard/users", current: false, icon: UserGroupIcon },
   { name: "Orders", href: "/dashboard/orders", current: false, icon: ArchiveBoxIcon },
+  { name: "Products", href: "/dashboard/products", current: false, icon: ShoppingBagIcon },
   { name: "Calendar", href: "/dashboard/calendar", current: false, icon: CalendarDaysIcon },
 ]);
 

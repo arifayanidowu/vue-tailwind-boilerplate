@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Calendar</p>
+    <h1 class="mb-3">Calendar</h1>
   </div>
 </template>
 

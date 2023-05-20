@@ -4,7 +4,7 @@
     :class="[
       {
         'bg-transparent': color === 'plain',
-        'bg-indigo-600 disabled:bg-slate-400 hover:bg-indigo-500 active:bg-indigo-600 text-slate-100 dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800':
+        'bg-indigo-600 disabled:bg-slate-400 hover:bg-indigo-500 active:bg-indigo-600 text-slate-100 dark:bg-indigo-800 dark:hover:bg-indigo-900  dark:border-gray-700 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:ring-offset-gray-800':
           color === 'primary',
         'bg-orange-800/95 disabled:bg-orange-200 hover:bg-orange-700 active:bg-orange-800 text-slate-100 dark:bg-orange-800 dark:hover:bg-orange-900 dark:border-orange-700 focus:ring-orange-600 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:ring-offset-orange-800':
           color === 'secondary',
@@ -17,7 +17,7 @@
         'bg-blue-600 disabled:bg-blue-400 hover:bg-blue-500 active:bg-blue-700 text-slate-100 dark:bg-blue-800 dark:hover:bg-blue-900 dark:border-blue-700 focus:ring-blue-600 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:ring-offset-blue-800':
           color === 'info',
       },
-      'w-full py-4 my-3 px-4 inline-flex justify-center focus-visible:outline disabled:cursor-not-allowed items-center gap-2 rounded-md border font-medium text-gray-700 text-md shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800',
+      'w-full py-4 my-3 px-4 inline-flex justify-center focus-visible:outline disabled:cursor-not-allowed items-center gap-2 rounded-md border font-medium text-gray-700 text-md shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all duration-300 text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800',
     ]"
   >
     <span class="sr-only">Call to action button</span>

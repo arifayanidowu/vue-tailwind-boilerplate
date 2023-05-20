@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Orders</p>
+    <h1 class="mb-3">Users</h1>
   </div>
 </template>
 
