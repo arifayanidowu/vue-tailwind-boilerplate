@@ -24,6 +24,7 @@
         <app-btn type="submit" class="mt-0"> Submit </app-btn>
       </form>
     </app-modal>
+    <app-backdrop-loader :isOpen="false" />
   </div>
 </template>
 
@@ -36,7 +37,6 @@ const headers = ref(["name", "price"]);
 const isOpen = ref(false);
 
 const onOpenModal = () => {
-  console.log("clicked");
   isOpen.value = true;
 };
 

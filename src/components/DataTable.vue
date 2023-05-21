@@ -41,6 +41,7 @@
                     <app-icon-btn
                       class="inline-flex focus:outline-none invisible group-hover/head:visible transition-all duration-300"
                       @click="sortBy(head)"
+                      variants="flat"
                     >
                       <ArrowUpIcon
                         class="w-3 h-3 text-gray-500 dark:text-gray-300"

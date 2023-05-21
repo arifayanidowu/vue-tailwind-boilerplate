@@ -14,6 +14,7 @@ import BadgeView from './BadgeView.vue'
 import SearchInput from './SearchInput.vue'
 import DataTable from './DataTable.vue'
 import AppModal from './modals/AppModal.vue'
+import BackdropLoader from './BackdropLoader.vue'
 
 export default function registerComponent(app: App): void {
   app
@@ -32,4 +33,5 @@ export default function registerComponent(app: App): void {
     .component('app-search-input', SearchInput)
     .component('app-data-table', DataTable)
     .component('app-modal', AppModal)
+    .component('app-backdrop-loader', BackdropLoader)
 }
