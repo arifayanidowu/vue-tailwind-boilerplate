@@ -13,7 +13,7 @@
         id="email"
         name="email"
         type="email"
-        v-model:model-value="email"
+        v-model="email"
         autocomplete="email"
         required
         placeholder="youremail@example.com"
@@ -26,29 +26,28 @@
           <app-input
             id="password"
             name="password"
-            v-model:model-value="password"
+            v-model="password"
             :type="passwordVisible ? 'text' : 'password'"
             required
             placeholder="••••••••••"
             :error="errors.password"
             label="Password"
-          />
-          <div
-            class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
           >
-            <button type="button" @click.stop="togglePasswordVisibility">
-              <EyeSlashIcon
-                class="h-5 w-5 text-gray-400 dark:text-gray-900"
-                aria-hidden="true"
-                v-if="!passwordVisible"
-              />
-              <EyeIcon
-                class="h-5 w-5 text-gray-400 dark:text-gray-900"
-                aria-hidden="true"
-                v-else
-              />
-            </button>
-          </div>
+            <template #prepend-icon>
+              <button type="button" @click.stop="togglePasswordVisibility">
+                <EyeSlashIcon
+                  class="h-5 w-5 text-gray-400 dark:text-gray-900"
+                  aria-hidden="true"
+                  v-if="!passwordVisible"
+                />
+                <EyeIcon
+                  class="h-5 w-5 text-gray-400 dark:text-gray-900"
+                  aria-hidden="true"
+                  v-else
+                />
+              </button>
+            </template>
+          </app-input>
         </div>
       </div>
       <app-btn

@@ -84,7 +84,7 @@
                                 'bg-gray-50 dark:bg-slate-700': nav.current,
                                 'bg-transparent': !nav.current,
                               },
-                              'inline-flex items-center w-full text-sm font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 h-6 py-6 px-1',
+                              'inline-flex items-center w-full text-sm font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 active:bg-gray-200 dark:active:bg-slate-700 dark:hover:bg-slate-600 h-6 py-6 px-1',
                             ]"
                           >
                             <span

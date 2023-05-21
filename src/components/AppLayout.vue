@@ -33,7 +33,7 @@
                   'bg-gray-50 dark:bg-slate-700': nav.current,
                   'bg-transparent': !nav.current,
                 },
-                'inline-flex items-center w-full text-sm font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 h-6 py-6 px-1',
+                'inline-flex items-center w-full text-sm font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 active:bg-gray-200 dark:active:bg-slate-700 dark:hover:bg-slate-600 h-6 py-6 px-1',
               ]"
             >
               <span
@@ -78,15 +78,15 @@
         <nav
           class="h-16 flex items-center justify-between px-6 border-b-[0.1px] border-b-slate-300 dark:border-b-slate-800"
         >
-          <button
+          <app-icon-btn
             @click="open = true"
             v-if="mobile"
             type="button"
-            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            variants="square"
           >
             <span class="sr-only">Open main menu</span>
             <Bars3Icon class="h-6 w-6 text-slate-500" />
-          </button>
+          </app-icon-btn>
           <div class="md:block hidden" />
           <div class="flex items-center gap-3">
             <!-- Toggle theme -->
@@ -122,7 +122,7 @@
             </div>
             <Menu as="div">
               <MenuButton
-                class="rounded-full bg-transparent p-1 border border-spacing-2 border-slate-300 dark:border-slate-800 text-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1 focus:ring-offset-gray-400"
+                class="rounded-full bg-transparent active:bg-slate-50 dark:active:bg-slate-800 p-2 border border-spacing-2 border-slate-100 dark:border-slate-800 text-gray-400 hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 focus:outline-none focus:ring-1 focus:ring-white focus:dark:ring-slate-600 focus:ring-offset-1 focus:ring-offset-gray-400 focus:dark:ring-offset-slate-600 transition-all duration-300"
               >
                 <img
                   v-if="user?.photoURL"
@@ -210,7 +210,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch, onUnmounted, reactive } from "vue";
-import { MenuItems, MenuItem, Menu, MenuButton} from "@headlessui/vue";
+import { MenuItems, MenuItem, Menu, MenuButton } from "@headlessui/vue";
 import { breakpointsTailwind, useBreakpoints, useDark, useToggle } from "@vueuse/core";
 import {
   Bars3Icon,
@@ -224,11 +224,11 @@ import {
   ArchiveBoxIcon,
   CalendarDaysIcon,
   UserCircleIcon,
-ShoppingBagIcon
+  ShoppingBagIcon
 } from "@heroicons/vue/24/outline";
 import { RouterLink, useRoute, type RouterView, useRouter } from "vue-router";
 import { useCurrentUser, } from 'vuefire'
-import {signOut} from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { auth } from "@/database";
 
 
@@ -280,8 +280,8 @@ const menuItems = ref([
 ]);
 
 const unwatch = watch(route, (to) => {
-  if(to)
-   navigation.value.forEach((item) => {
+  if (to)
+    navigation.value.forEach((item) => {
       item.current = item.href === to?.path;
     });
 });

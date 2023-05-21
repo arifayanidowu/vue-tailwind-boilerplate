@@ -9,10 +9,12 @@
     <app-data-table
       :headers="headers"
       :rows="rows"
-      :selection="true"
+      isSelectable
       hasActions
-      pagination
+      isPaginated
       isSearchable
+      isSortable
+      @onUpdate="onUpdate"
       class="bg-white dark:bg-gray-800"
     ></app-data-table>
     <app-modal :isOpen="isOpen" @closeModal="isOpen = false" title="Add Products">
@@ -85,4 +87,8 @@ const rows = reactive([
     id: 9,
   },
 ]);
+
+const onUpdate = (row: any) => {
+  console.log(row);
+};
 </script>

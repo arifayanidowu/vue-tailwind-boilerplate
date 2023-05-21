@@ -14,25 +14,33 @@
         >{{ label }}</label
       >
     </transition>
-    <input
-      v-bind="$attrs"
-      :value="modelValue"
-      @input="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
-      :class="[
-        'w-full py-3 px-2 block gap-3 mb-7 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 dark:focus:ring-slate-500 transition-all text-sm dark:bg-slate-600 dark:hover:bg-slate-500 dark:border-gray-700 dark:text-gray-300 dark:hover:text-gray-200 dark:focus:ring-offset-gray-900',
-        {
-          'border-red-500': color === 'danger',
-          'border-green-500': color === 'success',
-          'border-gray-500': color === 'plain',
-          'border-red-300 dark:border-red-300 focus:ring-red-400 dark:focus:ring-red-400':
-            error.length,
-        },
-        $attrs.class,
-      ]"
-      @focus="isVisible = true"
-      @blur="isVisible = false"
-    />
-    <p class="mt-1 absolute text-red-300 text-xs -bottom-4">
+    <div class="mt-2 relative">
+      <input
+        v-bind="$attrs"
+        :value="modelValue"
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
+        :class="[
+          'w-full py-4 px-2 block peer gap-3 mb-7 rounded-md border font-medium text-gray-500 bg-white shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 dark:focus:ring-slate-500 transition-all text-md dark:bg-slate-600 dark:hover:bg-slate-500 dark:border-gray-700 dark:text-gray-300 dark:hover:text-gray-200 dark:focus:ring-offset-gray-900',
+          {
+            'border-red-500 text-red-400': color === 'danger',
+            'border-green-500 text-green-300': color === 'success',
+            'border-gray-500': color === 'plain',
+            'border-red-300 dark:border-red-300 focus:ring-red-400 dark:focus:ring-red-400 text-red-400 dark:text-red-400':
+              error.length,
+          },
+          $attrs.class,
+        ]"
+        @focus="isVisible = true"
+        @blur="isVisible = false"
+        autocomplete="off"
+      />
+      <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+        <slot name="prepend-icon"></slot>
+      </div>
+    </div>
+    <p
+      class="mt-1 absolute invisible peer-invalid:visible text-red-300 text-xs -bottom-4"
+    >
       {{ error }}
     </p>
   </div>

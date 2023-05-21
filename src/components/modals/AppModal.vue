@@ -28,7 +28,7 @@
               :class="[
                 {
                   'sm:max-w-sm': variants === 'sm',
-                  'md:w-2/5': variants === 'md',
+                  'md:w-2/4': variants === 'md',
                   'max-w-lg': variants === 'lg',
                   'max-w-xl': variants === 'xl',
                 },
@@ -40,7 +40,9 @@
               >
                 {{ title }}
                 <app-icon-btn @click="closeModal">
-                  <XMarkIcon class="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                  <XMarkIcon
+                    class="w-6 h-6 text-gray-500 transition-colors duration-300 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-400"
+                  />
                 </app-icon-btn>
               </DialogTitle>
               <div class="p-6">
