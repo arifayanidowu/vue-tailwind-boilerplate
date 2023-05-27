@@ -10,7 +10,7 @@
           'bg-lime-500': color === 'warning',
           'bg-orange-500': color === 'info',
         },
-        'absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center text-white justify-center text-[0.6rem] font-bold p-2',
+        'absolute -top-2 -right-2 w-4 h-4 rounded-full flex items-center text-white justify-center text-[0.8rem] font-bold p-3',
       ]"
       v-if="badgeCount && badgeCount > 0"
     >

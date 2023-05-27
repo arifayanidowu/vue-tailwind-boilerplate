@@ -14,10 +14,9 @@
           'fixed right-4 top-2 z-[1000] w-[400px] p-2 rounded-md',
           {
             'bg-green-400': variant === 'success',
-            'bg-red-400': variant === 'danger',
+            'bg-red-600 text-white': variant === 'danger',
             'bg-orange-400': variant === 'warning',
             'bg-white': variant === 'plain',
-            'text-white': variant === 'danger',
           },
         ]"
       >

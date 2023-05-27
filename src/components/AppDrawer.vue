@@ -10,9 +10,7 @@
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
-        <div
-          class="fixed inset-0 bg-gray-500 dark:bg-gray-950 bg-opacity-75 dark:bg-opacity-75 transition-opacity"
-        />
+        <div class="bg-backdrop" />
       </TransitionChild>
 
       <div class="fixed inset-0 overflow-hidden">

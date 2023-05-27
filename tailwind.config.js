@@ -1,5 +1,6 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx,vue}'],
   theme: {
@@ -11,5 +12,9 @@ export default {
   corePlugins: {
     aspectRatio: false
   },
-  plugins: [import('@tailwindcss/aspect-ratio')]
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography')
+  ]
 }

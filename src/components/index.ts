@@ -15,6 +15,10 @@ import SearchInput from './SearchInput.vue'
 import DataTable from './DataTable.vue'
 import AppModal from './modals/AppModal.vue'
 import BackdropLoader from './BackdropLoader.vue'
+import HeaderText from './HeaderText.vue'
+import AvatarView from './AvatarView.vue'
+import CardHeader from './CardHeader.vue'
+import AppCheckbox from './AppCheckbox.vue'
 
 export default function registerComponent(app: App): void {
   app
@@ -27,6 +31,7 @@ export default function registerComponent(app: App): void {
     .component('app-bar-chart', BarChart)
     .component('app-progress-bar', ProgressBar)
     .component('app-card', CardView)
+    .component('app-card-header', CardHeader)
     .component('app-capsule', CapsuleViewVue)
     .component('app-icon-btn', IconButton)
     .component('app-badge', BadgeView)
@@ -34,4 +39,7 @@ export default function registerComponent(app: App): void {
     .component('app-data-table', DataTable)
     .component('app-modal', AppModal)
     .component('app-backdrop-loader', BackdropLoader)
+    .component('app-header-text', HeaderText)
+    .component('app-avatar', AvatarView)
+    .component('app-checkbox', AppCheckbox)
 }

@@ -1,8 +1,6 @@
 <template>
   <main>
-    <h1 class="mb-3 inline-flex items-center justify-center gap-1">
-      Dashboard <ChartBarSquareIcon class="w-6 h-6" />
-    </h1>
+    <app-header-text> Dashboard <ChartBarSquareIcon class="w-6 h-6" /> </app-header-text>
 
     <div class="flex flex-wrap gap-2 w-full">
       <app-card class="flex-1 p-4" v-for="(data, idx) in collectiveData" :key="idx">
@@ -23,7 +21,7 @@
               class="w-3 h-3 space-x-2"
             />
             <ArrowDownRightIcon v-else />
-            <span class="font-bold">
+            <span class="font-bold whitespace-nowrap">
               {{ percentageIncrease(data.oldTotal, data.total).toFixed(2) + "%" }}
             </span>
           </app-capsule>
@@ -63,7 +61,10 @@
       </div>
     </div>
 
-    <app-card class="px-3 py-3">
+    <app-card class="px-3 py-3 relative">
+      <div
+        class="absolute bg-[url('/assets/svg/grid.svg')] opacity-10 top-0 left-0 right-0 bottom-0 [background-position:calc(100%+5px)_calc(100%+29px)]"
+      ></div>
       <app-bar-chart :data="data" title="Number of Orders"></app-bar-chart>
     </app-card>
   </main>

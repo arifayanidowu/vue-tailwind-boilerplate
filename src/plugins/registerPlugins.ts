@@ -6,8 +6,9 @@ import { app as firebaseApp } from '@/database'
 
 export default function registerPlugins(app: App): void {
   app.use(createPinia())
-  app.use(router).use(VueFire, {
+  app.use(VueFire, {
     firebaseApp,
     modules: [VueFireAuth(), VueFireFirestoreOptionsAPI()]
   })
+  app.use(router)
 }

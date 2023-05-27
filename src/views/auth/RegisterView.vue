@@ -135,8 +135,8 @@ const { handleSubmit, errors } = useForm({
   validationSchema: schema,
 });
 
-const { value: email } = useField("email");
-const { value: password } = useField("password");
+const { value: email } = useField<string>("email");
+const { value: password } = useField<string>("password");
 
 const resetForm = () => {
   formRef.value?.reset();

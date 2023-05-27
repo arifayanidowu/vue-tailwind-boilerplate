@@ -1,5 +1,20 @@
 <template>
-  <div class="bg-white dark:bg-gray-800 shadow-sm rounded-md border dark:border-gray-600">
+  <div class="card">
     <slot></slot>
   </div>
 </template>
+
+<script setup lang="ts">
+import type { PropType } from "vue";
+
+defineProps({
+  title: {
+    type: String,
+    default: "",
+  },
+  variants: {
+    type: String as PropType<"sm" | "md" | "lg" | "xl">,
+    default: "md",
+  },
+});
+</script>

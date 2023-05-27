@@ -84,16 +84,16 @@
     </app-btn>
   </div>
   <app-snackbar
-    :open="snackbar.open"
-    :message="snackbar.message"
-    :variant="snackbar.color"
-    @close="snackbar.open = false"
+    :open="open"
+    :message="message"
+    :variant="color"
+    @close="closeSnackbar"
   ></app-snackbar>
 </template>
 
 <script setup lang="ts">
 import { EyeSlashIcon, EyeIcon } from "@heroicons/vue/24/solid";
-import { ref, reactive, watch, onMounted, onUnmounted } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -107,6 +107,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { useFirestore, useCurrentUser } from "vuefire";
 import GoogleIcon from "@/components/icons/GoogleIcon.vue";
 import { auth } from "@/database";
+import { useToast } from "@/composables";
 
 const passwordVisible = ref(false);
 const loading = ref(false);
@@ -114,16 +115,7 @@ const formRef = ref<HTMLFormElement | null>(null);
 const router = useRouter();
 const db = useFirestore();
 const user = useCurrentUser();
-
-const snackbar = reactive<{
-  open: boolean;
-  message: string;
-  color: "success" | "danger";
-}>({
-  open: false,
-  message: "",
-  color: "success",
-});
+const { open, message, color, closeSnackbar, openSnackbar } = useToast();
 
 const togglePasswordVisibility = () => {
   passwordVisible.value = !passwordVisible.value;
@@ -149,26 +141,18 @@ const schema = toTypedSchema(
   })
 );
 
-const { handleSubmit, errors } = useForm({
+const { handleSubmit, errors, resetForm } = useForm({
   validationSchema: schema,
 });
 
-const { value: email } = useField("email");
-const { value: password } = useField("password");
-
-const resetForm = () => {
-  formRef.value?.reset();
-  email.value = "";
-  password.value = "";
-};
+const { value: email } = useField<string>("email");
+const { value: password } = useField<string>("password");
 
 const signInWithGoogle = async () => {
   try {
     const document = await signInWithPopup(auth, new GoogleAuthProvider());
-    snackbar.open = true;
-    snackbar.message = "Login successful";
-    snackbar.color = "success";
 
+    openSnackbar("Signed in successfully", "success");
     const user = document.user;
     // check if user's email exists
     const querySnapshot = await getDocs(collection(db, "users"));
@@ -196,9 +180,7 @@ const signInWithGoogle = async () => {
     }, 3000);
   } catch (error) {
     const err = error as Error;
-    snackbar.open = true;
-    snackbar.message = err.message;
-    snackbar.color = "danger";
+    openSnackbar(err.message, "error");
   }
 };
 
@@ -210,9 +192,7 @@ const onSubmit = handleSubmit(async (values) => {
       values.email,
       values.password
     );
-    snackbar.open = true;
-    snackbar.message = "Login successful";
-    snackbar.color = "success";
+    openSnackbar("Signed in successfully", "success");
     // Signed in
     const user = userCredential.user;
     // ...
@@ -237,14 +217,10 @@ const onSubmit = handleSubmit(async (values) => {
   } catch (error) {
     const err = error as Error | zod.ZodError;
     if (err instanceof zod.ZodError) {
-      snackbar.open = true;
-      snackbar.message = err.issues[0].message;
-      snackbar.color = "danger";
+      openSnackbar(err.issues[0].message, "error");
       return;
     }
-    snackbar.open = true;
-    snackbar.message = err?.message;
-    snackbar.color = "danger";
+    openSnackbar(err.message, "error");
   } finally {
     loading.value = false;
     resetForm();

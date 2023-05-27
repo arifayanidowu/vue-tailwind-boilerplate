@@ -1,7 +1,12 @@
 <template>
-  <div :class="['border dark:border-slate-700 rounded-lg overflow-x-auto', $attrs.class]">
+  <div
+    :class="[
+      'border dark:border-slate-700 rounded-lg overflow-hidden w-full',
+      $attrs.class,
+    ]"
+  >
     <div
-      class="divide-y divide-gray-200 dark:border-gray-700 dark:divide-gray-700 min-w-[600px]"
+      class="divide-y relative divide-gray-200 dark:border-gray-700 dark:divide-gray-700 md:min-w-[600px] w-full"
     >
       <app-search-input
         v-if="isSearchable"
@@ -9,25 +14,17 @@
         placeholder="Search for items"
         @clear="clearSearchInput"
       ></app-search-input>
-      <div class="overflow-hidden">
-        <table
-          class="min-w-full max-h-[200px] divide-y divide-gray-200 dark:divide-gray-700"
-        >
+      <div class="overflow-x-auto w-full">
+        <table class="max-h-[200px] w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead class="bg-gray-50 dark:bg-gray-700">
             <tr role="checkbox">
               <th scope="col" class="py-3 px-4 pr-0" v-if="isSelectable">
                 <div class="flex items-center h-5">
-                  <input
-                    id="hs-table-search-checkbox-all"
-                    type="checkbox"
+                  <app-checkbox
                     :checked="selectAll"
                     :disabled="!currentRows.length"
                     @change="handleSelectAllCheckboxChange"
-                    class="border-gray-200 rounded cursor-pointer text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                   />
-                  <label for="hs-table-search-checkbox-all" class="sr-only"
-                    >Checkbox</label
-                  >
                 </div>
               </th>
               <th
@@ -76,42 +73,48 @@
                   },
                 ]"
                 role="checkbox"
-                @click="handleTableRowClick"
+                @click="($ev) => (isSelectable ? handleTableRowClick($ev) : null)"
               >
                 <td class="py-3 pl-4" v-if="isSelectable">
-                  <div class="flex items-center h-5">
-                    <input
-                      id="hs-table-search-checkbox-1"
-                      type="checkbox"
-                      :checked="selectedRows.includes(data)"
-                      @change="($event) => handleRowCheckBoxChange($event, data)"
-                      class="border-gray-200 rounded cursor-pointer text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                    />
-                    <label for="hs-table-search-checkbox-1" class="sr-only"
-                      >Checkbox</label
-                    >
-                  </div>
+                  <app-checkbox
+                    :checked="selectedRows.includes(data)"
+                    @change.stop="($event) => handleRowCheckBoxChange($event, data)"
+                  />
                 </td>
                 <td
                   class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center dark:text-gray-200"
+                  :class="{
+                    'text-left': !isSelectable,
+                  }"
                   v-for="(head, idx) in headers"
                   :key="idx"
                 >
-                  {{ data[head] }}
+                  <app-avatar
+                    :src="data[head]"
+                    variants="square"
+                    class="text-right mx-auto"
+                    v-if="isURL(data[head])"
+                  />
+                  <template v-else>
+                    {{ addCurrencyIfNumber(data[head]) }}
+                  </template>
                 </td>
                 <td
                   class="px-6 py-4 whitespace-nowrap space-x-1 text-right text-sm font-medium"
                   v-if="hasActions"
                 >
-                  <app-icon-btn @click.stop="onDeleteRow(data)">
-                    <TrashIcon
-                      class="w-5 h-5 text-red-500 hover:text-red-800 transition-colors"
-                    />
+                  <app-icon-btn
+                    @click.stop="onUpdateRow(data)"
+                    class="hover:!bg-blue-100 dark:hover:!bg-blue-800/20 !transition-colors"
+                  >
+                    <PencilSquareIcon class="w-5 h-5 text-blue-500" />
                   </app-icon-btn>
-                  <app-icon-btn @click.stop="onUpdateRow(data)">
-                    <PencilSquareIcon
-                      class="w-5 h-5 text-blue-500 text-right hover:text-blue-800 transition-colors"
-                    />
+                  <app-icon-btn
+                    @click.stop="onDeleteRow(data)"
+                    class="hover:!bg-red-100 dark:hover:!bg-red-800/20 !transition-colors disabled:cursor-not-allowed"
+                    :disabled="data.isDisabled"
+                  >
+                    <TrashIcon class="w-5 h-5 text-red-500" />
                   </app-icon-btn>
                 </td>
               </tr>
@@ -130,7 +133,7 @@
         </table>
       </div>
       <!-- Pagination Starts -->
-      <div>
+      <div class="w-full h-full overflow-x-auto">
         <nav
           aria-label="Page navigation example"
           class="my-6 mx-4 flex justify-between items-center"
@@ -204,7 +207,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends Record<string, any>">
 import { TrashIcon } from "@heroicons/vue/24/outline";
 import {
   ArrowDownIcon,
@@ -216,19 +219,22 @@ import {
 import type { PropType } from "vue";
 import { ref, computed } from "vue";
 
+import { formatCurrency, isURL } from "@/utils";
+import { toRefs } from "vue";
+
 const props = defineProps({
   title: {
     type: String,
     default: "Table",
   },
   rows: {
-    type: Array as PropType<any[]>,
+    type: Array as PropType<T[]>,
     default: () => [],
-    required: true,
   },
   headers: {
     type: Array as PropType<any[]>,
     default: () => [],
+    required: true,
   },
   isSearchable: {
     type: Boolean,
@@ -257,15 +263,17 @@ const props = defineProps({
   },
 });
 
+const propsRefs = toRefs(props);
+
 const emit = defineEmits<{
-  (event: "onDelete", row: any): void;
-  (event: "onSelect", row: any): void;
-  (event: "onUpdate", row: any): void;
+  (event: "onDelete", row: T): void;
+  (event: "onSelect", row: T[]): void;
+  (event: "onEdit", row: T): void;
 }>();
 
 const rowsPerPage = ref(5);
 const page = ref(1);
-const rows = ref<typeof props.rows>(props.rows);
+const rows = ref(props.rows);
 const selectedRows = ref<any[]>([]);
 const selectAll = ref(false);
 const searchQuery = ref("");
@@ -282,12 +290,26 @@ const clearSearchInput = () => {
 };
 
 const currentRows = computed(() =>
-  rows.value.slice(indexOfFirstItem.value, indexOfLastItem.value).filter((row) =>
-    Object.values(row).some((value) => {
-      return value?.toString().toLowerCase().includes(searchQuery.value.toLowerCase());
-    })
-  )
+  propsRefs.rows.value
+    .slice(indexOfFirstItem.value, indexOfLastItem.value)
+    .filter((row) =>
+      Object.values(row)
+        .map((value) => {
+          return value
+            ?.toString()
+            .toLowerCase()
+            .includes(searchQuery.value.toLowerCase());
+        })
+        .find((value) => value === true)
+    )
 );
+
+const addCurrencyIfNumber = (value: any) => {
+  if (typeof value === "number") {
+    return formatCurrency("USD", value);
+  }
+  return value ?? "null";
+};
 
 const sortedTableData = computed(() => {
   const sortedData = [...currentRows.value];
@@ -340,7 +362,7 @@ const handleSelectAllCheckboxChange = (e: Event) => {
   const target = e.target as HTMLInputElement;
   selectAll.value = target.checked;
   if (target.checked) {
-    selectedRows.value = rows.value;
+    selectedRows.value = props.rows;
   } else {
     selectedRows.value = [];
   }
@@ -365,11 +387,10 @@ const paginate = (val: number) => {
 };
 
 const onDeleteRow = (val: any) => {
-  console.log(val?.id);
   emit("onDelete", val);
 };
 
 const onUpdateRow = (val: any) => {
-  emit("onUpdate", val);
+  emit("onEdit", val);
 };
 </script>

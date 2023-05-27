@@ -92,25 +92,16 @@
             <!-- Toggle theme -->
             <div>
               <app-icon-btn @click.stop="toggleDark()" type="button">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+                <MoonIcon
+                  v-if="isDark"
                   :class="[
                     'w-5 h-5 text-blue-400 opacity-0 transition-opacity',
                     {
                       'opacity-100': isDark,
                     },
                   ]"
-                  v-if="isDark"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M7.455 2.004a.75.75 0 01.26.77 7 7 0 009.958 7.967.75.75 0 011.067.853A8.5 8.5 0 116.647 1.921a.75.75 0 01.808.083z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                <SunIcon class="h-6 w-6 text-blue-500" v-else />
+                />
+                <AnimatedSunIcon class="h-6 w-6 text-blue-500" v-else />
               </app-icon-btn>
             </div>
             <div class="flex items-center">
@@ -122,7 +113,7 @@
             </div>
             <Menu as="div">
               <MenuButton
-                class="rounded-full bg-transparent active:bg-slate-50 dark:active:bg-slate-800 p-2 border border-spacing-2 border-slate-100 dark:border-slate-800 text-gray-400 hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 focus:outline-none focus:ring-1 focus:ring-white focus:dark:ring-slate-600 focus:ring-offset-1 focus:ring-offset-gray-400 focus:dark:ring-offset-slate-600 transition-all duration-300"
+                class="rounded-full bg-transparent active:bg-slate-50 dark:active:bg-slate-800 p-2 border border-spacing-2 border-slate-100 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-1 focus:ring-white focus:dark:ring-slate-600 focus:ring-offset-1 focus:ring-offset-gray-400 focus:dark:ring-offset-slate-600 transition-all duration-300"
               >
                 <img
                   v-if="user?.photoURL"
@@ -132,7 +123,7 @@
                 />
                 <UserCircleIcon
                   v-else
-                  class="h-6 w-6 text-slate-500"
+                  class="h-7 w-7 text-slate-500"
                   aria-hidden="true"
                 />
               </MenuButton>
@@ -218,7 +209,6 @@ import {
   UserIcon,
   CogIcon,
   ArrowLeftOnRectangleIcon,
-  SunIcon,
   HomeModernIcon,
   UserGroupIcon,
   ArchiveBoxIcon,
@@ -230,6 +220,8 @@ import { RouterLink, useRoute, type RouterView, useRouter } from "vue-router";
 import { useCurrentUser, } from 'vuefire'
 import { signOut } from 'firebase/auth';
 import { auth } from "@/database";
+import MoonIcon from "./icons/MoonIcon.vue";
+import AnimatedSunIcon from "./icons/AnimatedSunIcon.vue";
 
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
@@ -261,7 +253,7 @@ const navigation = ref([
 
 // Menu Items with Icons
 const menuItems = ref([
-  { name: "Your Profile", IconComponent: UserIcon, onClick: () => console.log("Your Profile") },
+  { name: "Your Profile", IconComponent: UserIcon, onClick: () => router.push({ name: 'Profile'}) },
   { name: "Settings", IconComponent: CogIcon, onClick: () => console.log("Settings") },
   {
     name: "Sign out",
@@ -273,7 +265,7 @@ const menuItems = ref([
         snackbar.color = "success";
         setTimeout(() => {
           router.push('/')
-        }, 3000)
+        }, 1500)
       })
     },
   },

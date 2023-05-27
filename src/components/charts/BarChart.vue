@@ -5,7 +5,10 @@
       <span class="shadow border-2 bg-blue-500 rounded-full w-3 h-3" />
       <p>{{ title }}</p>
     </div>
-    <div class="relative overflow-auto mt-6" :style="{ height: containerHeight + 'px' }">
+    <div
+      class="relative overflow-auto mt-6 w-full"
+      :style="{ height: containerHeight + 'px' }"
+    >
       <div
         class="h-full flex items-end justify-between p-5 relative z-10 -top-2.5 gap-1 ml-2"
       >
@@ -21,7 +24,7 @@
               {
                 'right-4': index === data.length - 1,
               },
-              'invisible group-hover/item:visible pointer-events-none absolute z-20 border shadow-sm bg-white dark:bg-slate-800 dark:border-slate-600 rounded-md md:w-[300px] w-[200px] -top-2',
+              `invisible group-hover/item:visible pointer-events-none absolute z-20 border shadow-sm dark:bg-slate-800 dark:border-slate-600 rounded-md md:w-[300px] w-[200px] -top-2`,
             ]"
           >
             <div class="border-b border-gray-100 dark:border-gray-700 px-3 py-2">
@@ -54,7 +57,7 @@
         <div
           v-for="(label, index) in chartData.yAxisLabels"
           :key="index"
-          class="flex-1 align-text-bottom flex gap-1 after:flex-[1_1_0%] w-full items-center justify-center after:border after:-z-1 after:border-dashed after:w-full"
+          class="flex-1 align-text-bottom flex gap-1 after:flex-[1_1_0%] w-full items-center justify-center after:border-[0.5px] after:-z-1 after:border-dashed after:w-full"
         >
           {{ dataFormatter(+label) }}
         </div>
@@ -77,15 +80,15 @@ defineProps({
   },
   index: {
     type: Number,
-    required: true,
+    required: false,
   },
   color: {
     type: String,
-    required: true,
+    required: false,
   },
   title: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 

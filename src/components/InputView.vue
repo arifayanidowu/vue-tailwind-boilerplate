@@ -17,17 +17,20 @@
     <div class="mt-2 relative">
       <input
         v-bind="$attrs"
+        :type="type"
         :value="modelValue"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
         :class="[
-          'w-full py-4 px-2 block peer gap-3 mb-7 rounded-md border font-medium text-gray-500 bg-white shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 dark:focus:ring-slate-500 transition-all text-md dark:bg-slate-600 dark:hover:bg-slate-500 dark:border-gray-700 dark:text-gray-300 dark:hover:text-gray-200 dark:focus:ring-offset-gray-900',
           {
             'border-red-500 text-red-400': color === 'danger',
             'border-green-500 text-green-300': color === 'success',
             'border-gray-500': color === 'plain',
-            'border-red-300 dark:border-red-300 focus:ring-red-400 dark:focus:ring-red-400 text-red-400 dark:text-red-400':
+            'border border-red-300 focus:border-red-200 dark:border-red-300 focus:ring-red-400 dark:focus:ring-red-400 text-red-400 dark:text-red-400':
               error.length,
+            'border-slate-300 dark:border-slate-600 font-medium text-gray-500 bg-white shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 dark:focus:ring-slate-500 transition-all text-md dark:bg-slate-600 dark:hover:bg-slate-500 dark:text-gray-300 dark:hover:text-gray-200 dark:focus:ring-offset-gray-900':
+              color === 'primary',
           },
+          'w-full py-4 px-3 block peer placeholder:text-gray-300 dark:placeholder:text-slate-200 gap-3 mb-8 rounded-md border',
           $attrs.class,
         ]"
         @focus="isVisible = true"
@@ -38,9 +41,7 @@
         <slot name="prepend-icon"></slot>
       </div>
     </div>
-    <p
-      class="mt-1 absolute invisible peer-invalid:visible text-red-300 text-xs -bottom-4"
-    >
+    <p class="mt-3 absolute text-red-300 text-xs -bottom-4" v-if="error.length">
       {{ error }}
     </p>
   </div>
@@ -51,7 +52,10 @@ import type { PropType } from "vue";
 import { ref } from "vue";
 
 defineProps({
-  modelValue: String,
+  modelValue: {
+    type: [String, Number, Boolean],
+    default: "",
+  },
   modelModifiers: {
     default: () => ({}),
   },
@@ -69,11 +73,15 @@ defineProps({
     type: String,
     default: "",
   },
+  type: {
+    type: String,
+    default: "text",
+  },
 });
 
 const isVisible = ref(false);
 
 defineEmits<{
-  (event: "update:modelValue", value: string): void;
+  (event: "update:modelValue", value: string | number | boolean): void;
 }>();
 </script>
